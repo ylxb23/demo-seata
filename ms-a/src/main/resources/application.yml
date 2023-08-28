@@ -1,0 +1,233 @@
+# spring cloud
+spring:
+  application:
+    name: microserviceA
+    version: 1.0.0
+  server:
+    port: 8001
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+      nacos:
+        enabled: true
+    nacos:
+      config:
+        import-check:
+          enabled: false
+        server-addr: 172.18.63.11:8848
+        group: ms_config_group
+      discovery:
+        server-addr: 172.18.63.11:8848
+        namespace: SAMA01
+        group: microserviceGroup
+        service: ${spring.application.name}
+        port: ${spring.server.port}
+        ip-type: IPv4
+  mybatis:
+    mapper-location: classpath:mappers/*.xml
+    type-aliases-package: com.zero.demos.seata.msa.acl.repository.entity
+    type-handlers-package: com.zero.demos.seata.msa.acl.repository.mapper
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.18.63.11:3306/seata_order?useUnicode=true&characterEncoding=UTF-8
+    username: zeng
+    password: zeng
+
+server:
+  port: ${spring.server.port}
+
+# feign
+feign:
+  client:
+    config:
+      #default默认所有服务的超时时间
+      default:
+        connect-timeout: 10000
+        read-timeout: 20000
+
+# seata client config
+seata:
+  enabled: true
+  application-id: demo_seata_msa
+  tx-service-group: demo_seata_tx_group
+  access-key:
+  secret-key:
+  enable-auto-data-source-proxy: true
+  data-source-proxy-mode: AT
+  use-jdk-proxy: false
+  scan-packages: com.zero.demos.seata.msa,com.zero.demos.seata.msb,com.zero.demos.seata.msc
+  excludes-for-scanning:
+  excludes-for-auto-proxying:
+  client:
+    rm:
+      async-commit-buffer-limit: 10000
+      report-retry-count: 5
+      table-meta-check-enable: false
+      report-success-enable: false
+      saga-branch-register-enable: false
+      saga-json-parser: fastjson
+      saga-retry-persist-mode-update: false
+      saga-compensate-persist-mode-update: false
+      tcc-action-interceptor-order: -2147482648 #Ordered.HIGHEST_PRECEDENCE + 1000
+      sql-parser-type: druid
+      lock:
+        retry-interval: 10
+        retry-times: 30
+        retry-policy-branch-rollback-on-conflict: true
+    tm:
+      commit-retry-count: 5
+      rollback-retry-count: 5
+      default-global-transaction-timeout: 60000
+      degrade-check: false
+      degrade-check-period: 2000
+      degrade-check-allow-times: 10
+      interceptor-order: -2147482648 #Ordered.HIGHEST_PRECEDENCE + 1000
+    undo:
+      data-validation: true
+      log-serialization: jackson
+      log-table: undo_log
+      only-care-update-columns: true
+      compress:
+        enable: true
+        type: zip
+        threshold: 64k
+    load-balance:
+      type: XID
+      virtual-nodes: 10
+  service:
+    vgroup-mapping:
+      demo_seata_tx_group: default
+    grouplist:
+      default: 127.0.0.1:8091
+    enable-degrade: false
+    disable-global-transaction: false
+  transport:
+    shutdown:
+      wait: 3
+    thread-factory:
+      boss-thread-prefix: NettyBoss
+      worker-thread-prefix: NettyServerNIOWorker
+      server-executor-thread-prefix: NettyServerBizHandler
+      share-boss-worker: false
+      client-selector-thread-prefix: NettyClientSelector
+      client-selector-thread-size: 1
+      client-worker-thread-prefix: NettyClientWorkerThread
+      worker-thread-size: default
+      boss-thread-size: 1
+    type: TCP
+    server: NIO
+    heartbeat: true
+    serialization: seata
+    compressor: none
+    enable-tm-client-batch-send-request: false
+    enable-rm-client-batch-send-request: true
+    rpc-rm-request-timeout: 15000
+    rpc-tm-request-timeout: 30000
+  config:
+    type: nacos
+    consul:
+      server-addr: 127.0.0.1:8500
+    apollo:
+      apollo-meta: http://192.168.1.204:8801
+      app-id: seata-server
+      namespace: application
+      apollo-accesskey-secret:
+    etcd3:
+      server-addr: http://localhost:2379
+    nacos:
+      namespace:
+      server-addr: 172.18.63.11:8848
+      group: SEATA_GROUP
+      username:
+      password:
+      context-path:
+      ##if use MSE Nacos with auth, mutex with username/password attribute
+      #access-key:
+      #secret-key:
+      data-id: seata.properties
+    zk:
+      server-addr: 127.0.0.1:2181
+      session-timeout: 6000
+      connect-timeout: 2000
+      username:
+      password:
+      node-path: /seata/seata.properties
+    custom:
+      name:
+  registry:
+    type: nacos
+    file:
+      name: file.conf
+    consul:
+      server-addr: 127.0.0.1:8500
+      acl-token:
+    etcd3:
+      server-addr: http://localhost:2379
+    eureka:
+      weight: 1
+      service-url: http://localhost:8761/eureka
+    nacos:
+      application: seata-server
+      server-addr: 172.18.63.11:8848
+      group : "SEATA_GROUP"
+      namespace:
+      username:
+      password:
+      context-path:
+      ##if use MSE Nacos with auth, mutex with username/password attribute
+      #access-key:
+      #secret-key:
+      ##if use Nacos naming meta-data for SLB service registry, specify nacos address pattern rules here
+      #slbPattern =
+    redis:
+      server-addr: localhost:6379
+      db: 0
+      password:
+      timeout: 0
+    sofa:
+      server-addr: 127.0.0.1:9603
+      region: DEFAULT_ZONE
+      datacenter: DefaultDataCenter
+      group: SEATA_GROUP
+      address-wait-time: 3000
+      application: default
+    zk:
+      server-addr: 127.0.0.1:2181
+      session-timeout: 6000
+      connect-timeout: 2000
+      username:
+      password:
+    custom:
+      name:
+  log:
+    exception-rate: 100
+  tcc:
+    fence:
+      log-table-name: tcc_fence_log
+      clean-period: 1h
+  saga:
+    enabled: false
+    state-machine:
+      table-prefix: seata_
+      enable-async: false
+      async-thread-pool:
+        core-pool-size: 1
+        max-pool-size: 20
+        keep-alive-time: 60
+      trans-operation-timeout: 1800000
+      service-invoke-timeout: 300000
+      auto-register-resources: true
+      resources:
+        - classpath*:seata/saga/statelang/**/*.json
+      default-tenant-id: 000001
+      charset: UTF-8
+
+# logger
+logging:
+#  config: classpath:log4j2.yml
+  level:
+    root: INFO
+    com.zero.demos: DEBUG
+
+org.springframework.boot.logging.LoggingSystem: org.springframework.boot.logging.log4j2.Log4J2LoggingSystem
