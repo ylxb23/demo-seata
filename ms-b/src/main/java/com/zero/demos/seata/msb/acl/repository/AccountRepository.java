@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+/**
+ * @author ylxb2
+ */
 @Repository
 public class AccountRepository {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -41,4 +44,8 @@ public class AccountRepository {
     }
 
 
+    public int updateBalance(Long id, int amount) {
+        int res = accountMapper.updateBalanceById(id, amount);
+        return res;
+    }
 }

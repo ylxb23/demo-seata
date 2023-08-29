@@ -283,4 +283,12 @@
       update_time = #{updateTime,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <!-- by hand -->
+  <update id="updateBalanceById" >
+    update t_account
+    set balance=balance + #{amount, jdbcType=INTEGER},
+    update_time = UNIX_TIMESTAMP(NOW())
+    where id=#{id, jdbcType=BIGINT} and balance+#{amount, jdbcType=INTEGER} > 0
+  </update>
 </mapper>

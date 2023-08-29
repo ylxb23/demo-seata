@@ -49,8 +49,8 @@ feign:
 # seata client config
 seata:
   enabled: true
-  application-id: demo_seata_msa
-  tx-service-group: demo_seata_tx_group
+  application-id: ${spring.application.name}
+  tx-service-group: ${spring.application.name}-tx-group
   access-key:
   secret-key:
   enable-auto-data-source-proxy: true
@@ -136,7 +136,7 @@ seata:
     etcd3:
       server-addr: http://localhost:2379
     nacos:
-      namespace:
+      namespace: SAMA01
       server-addr: 172.18.63.11:8848
       group: SEATA_GROUP
       username:
@@ -170,8 +170,8 @@ seata:
     nacos:
       application: seata-server
       server-addr: 172.18.63.11:8848
-      group : "SEATA_GROUP"
-      namespace:
+      group : SEATA_GROUP
+      namespace: SAMA01
       username:
       password:
       context-path:

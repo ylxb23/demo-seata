@@ -298,4 +298,12 @@
       update_time = #{updateTime,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <!-- by hand -->
+  <update id="updateProductStock" >
+    update t_product
+    set stock=stock + #{count, jdbcType=INTEGER},
+    update_time = UNIX_TIMESTAMP(NOW())
+    where `id`=#{id, jdbcType=BIGINT} and stock + #{count, jdbcType=INTEGER} > 0;
+  </update>
 </mapper>

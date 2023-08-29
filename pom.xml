@@ -8,6 +8,7 @@
         <module>ms-a</module>
         <module>ms-b</module>
         <module>ms-c</module>
+        <module>seata-server</module>
     </modules>
     <name>demo-seata</name>
     <url>http://maven.apache.org</url>

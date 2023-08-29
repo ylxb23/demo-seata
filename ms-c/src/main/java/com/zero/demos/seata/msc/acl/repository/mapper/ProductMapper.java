@@ -93,4 +93,6 @@ public interface ProductMapper {
      * @mbg.generated Mon Aug 28 16:31:37 CST 2023
      */
     int updateByPrimaryKey(ProductEntity row);
+
+    int updateProductStock(@Param("id") long id, @Param("count") int count);
 }

@@ -1,5 +1,6 @@
 package com.zero.demos.seata.msa.acl.port.clients;
 
+import com.zero.demos.seata.msa.acl.pl.AccountBalanceChangeRequest;
 import com.zero.demos.seata.msa.acl.pl.AccountItem;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -19,4 +20,7 @@ public interface AccountService {
 
     @PostMapping(path = "/account")
     ResponseEntity<String> accAccount(@RequestBody AccountItem account);
+
+    @PostMapping(path = "/account/deduction")
+    ResponseEntity<String> deductionBalance(@RequestBody AccountBalanceChangeRequest request);
 }

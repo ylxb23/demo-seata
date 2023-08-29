@@ -16,4 +16,8 @@ public class ProductRepository {
     public ProductEntity selectById(Long id) {
         return productMapper.selectByPrimaryKey(id);
     }
+
+    public int updateProductStock(long id, int count) {
+        return productMapper.updateProductStock(id, count);
+    }
 }

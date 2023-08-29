@@ -93,4 +93,6 @@ public interface AccountMapper {
      * @mbg.generated Wed Aug 23 10:41:07 CST 2023
      */
     int updateByPrimaryKey(AccountEntity row);
+
+    int updateBalanceById(@Param("id") long id, @Param("amount") int amount);
 }
