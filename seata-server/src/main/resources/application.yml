@@ -8,22 +8,22 @@ base:
       password: zeng #your mysql server password
 
 server:
-  port: 7091
+  port: 7099
 
 spring:
   application:
     name: seata-server
 
 logging:
-  config: classpath:logback-spring.xml
+#  config: classpath:logback-spring.xml
   file:
     path: ${user.home}/logs/seata
-  extend:
-    logstash-appender:
-      destination: 127.0.0.1:4560
-    kafka-appender:
-      bootstrap-servers: 127.0.0.1:9092
-      topic: logback_to_logstash
+#  extend:
+#    logstash-appender:
+#      destination: 127.0.0.1:4560
+#    kafka-appender:
+#      bootstrap-servers: 127.0.0.1:9092
+#      topic: logback_to_logstash
 
 console:
   user:
@@ -37,8 +37,8 @@ seata:
     nacos:
       server-addr: 172.18.63.11:8848
       namespace: SAMA01
-      username: nacos
-      password: nacos
+#      username: nacos
+#      password: nacos
       ##if use MSE Nacos with auth, mutex with username/password attribute
       #access-key: ""
       #secret-key: ""

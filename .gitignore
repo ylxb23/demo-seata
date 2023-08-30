@@ -9,3 +9,6 @@
 # temp
 *.swp
 *.temp
+
+# nacos local file
+file_store/
